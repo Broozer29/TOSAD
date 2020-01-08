@@ -33,7 +33,7 @@ public class BusinessRule {
 			generateSmallerThanConstraint();
 			break;
 		}
-	}	
+	}
 	
 	private void generateNotNullConstraint() {
 		this.code = "ALTER TABLE " + this.table + " MODIFY " + this.column + " NOT NULL;"; 
