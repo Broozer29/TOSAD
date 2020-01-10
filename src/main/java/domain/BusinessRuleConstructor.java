@@ -1,17 +1,31 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BusinessRuleConstructor {
 	private String recievedData;
 
 	private String typeOfConstraint;
 	private String tableName;
 	private String columnName;
+	
 	private String minValue;
 	private String maxValue;
+	
+	private String secondaryTable;
+	private ArrayList<String> listOfValues;
 
 	public BusinessRuleConstructor(String recievedData) {
 		this.recievedData = recievedData;
 	}
+	
+	// Legenda voor rules: 
+	// ACR: Attribute Compare Rule 
+	// ARR: Attribute Range Rule
+	// ALR: Attribute List Rule 
+	// AOR: Attribute Other Rule 
+	// TCR: Tuple Compare Rule
 
 	public BusinessRule createBusinessRule() {
 		BusinessRule newBusinessRule = new BusinessRule(tableName, columnName, typeOfConstraint);
@@ -21,6 +35,15 @@ public class BusinessRuleConstructor {
 		}
 		if (typeOfConstraint.equals("ACR>") || typeOfConstraint.equals("ACR>=")) {
 			newBusinessRule.setMinValue(minValue);
+		}
+		
+		if (typeOfConstraint.equals("ARR")) {
+			newBusinessRule.setMinValue(minValue);
+			newBusinessRule.setMaxValue(maxValue);
+		}
+		
+		if (typeOfConstraint.equals("ALR")) {
+			newBusinessRule.setListOfValues(listOfValues);
 		}
 		return newBusinessRule;
 	}
@@ -71,5 +94,21 @@ public class BusinessRuleConstructor {
 
 	public void setMaxValue(String maxValue) {
 		this.maxValue = maxValue;
+	}
+	
+	public String getSecondaryTable() {
+		return secondaryTable;
+	}
+
+	public void setSecondaryTable(String secondaryTable) {
+		this.secondaryTable = secondaryTable;
+	}
+
+	public ArrayList<String> getListOfValues() {
+		return listOfValues;
+	}
+
+	public void setListOfValues(ArrayList<String> listOfValues) {
+		this.listOfValues = listOfValues;
 	}
 }

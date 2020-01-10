@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BusinessRule {
 	private String code;
 	private String table;
@@ -7,6 +10,8 @@ public class BusinessRule {
 	private String typeOfConstraint;
 	private String minValue;
 	private String maxValue;
+	
+	private ArrayList<String> listOfValues;
 
 	public String getCode() {
 		return this.code;
@@ -41,6 +46,14 @@ public class BusinessRule {
 	public void setMaxValue(String maxValue) {
 		this.maxValue = maxValue;
 	}
+	
+	public List<String> getListOfValues() {
+		return listOfValues;
+	}
+
+	public void setListOfValues(ArrayList<String> listOfValues) {
+		this.listOfValues = listOfValues;
+	}
 
 	public void generateBusinessRule() {
 		switch (typeOfConstraint.toUpperCase()) {
@@ -61,6 +74,12 @@ public class BusinessRule {
 			break;
 		case "ACR=":
 			generateAttributeCompareRuleEqual();
+			break;
+		case "ARR":
+			generateAttributeRangeRule();
+			break;
+		case "ALR":
+			generateAttributeListRule();
 			break;
 		}
 
@@ -89,4 +108,26 @@ public class BusinessRule {
 	private void generateAttributeCompareRuleEqual() {
 		this.code = "ALTER TABLE " + this.table + " ADD CHECK (" + this.column + "=" + this.maxValue + ");";
 	}
+	
+	private void generateAttributeRangeRule() {
+		this.code = "ALTER TABLE " + this.table + " ADD CHECK (" + this.column + " between " + this.minValue + " and " + this.maxValue + ");"; 
+	}
+	
+	private void generateAttributeListRule() {
+		convertListOfValues();
+		this.code = "ALTER TABLE " + this.table + " ADD CHECK (" + " status in " + "(" + this.listOfValues + ")" + ");";
+		this.code = this.code.replace("[", "");
+		this.code = this.code.replace("]", "");
+	}
+	
+	private void convertListOfValues(){
+		ArrayList<String> newList = new ArrayList<String>();
+		for (String str : listOfValues) {
+			String newString = "'" + str + "'";
+			newList.add(newString);
+		}
+		
+		this.listOfValues = newList;
+	}
+
 }

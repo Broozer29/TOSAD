@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.*;
 
 public class JSonReader {
@@ -58,11 +61,27 @@ public class JSonReader {
 	}
 	
 	private void fillAttributeRangeRule(JSONObject jsonObj) {
-		
+		ruleConstructor.setTableName(jsonObj.getString("tableName"));
+		ruleConstructor.setColumnName(jsonObj.getString("columnName"));
+		ruleConstructor.setTypeOfConstraint(jsonObj.getString("typeOfConstraint"));
+		ruleConstructor.setMaxValue(jsonObj.getString("maxValue"));
+		ruleConstructor.setMinValue(jsonObj.getString("minValue"));
 	}
 	
 	private void fillAttributeListRule(JSONObject jsonObj) {
+		ruleConstructor.setTableName(jsonObj.getString("tableName"));
+		ruleConstructor.setColumnName(jsonObj.getString("columnName"));
+		ruleConstructor.setTypeOfConstraint(jsonObj.getString("typeOfConstraint"));
+		ArrayList<String> listOfValues = new ArrayList<String>();    
 		
+		JSONArray jArray = (JSONArray)jsonObj.get("listOfValues"); 
+		if (jArray != null) { 
+		   for (int i=0;i<jArray.length();i++){ 
+		    listOfValues.add(jArray.getString(i));
+		   } 
+		}
+		
+		ruleConstructor.setListOfValues(listOfValues);
 	}
 	
 	private void fillAttributeOtherRule(JSONObject jsonObj) {
