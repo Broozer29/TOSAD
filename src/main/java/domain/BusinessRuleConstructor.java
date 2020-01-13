@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BusinessRuleConstructor {
 	private String recievedData;
@@ -13,7 +12,12 @@ public class BusinessRuleConstructor {
 	private String minValue;
 	private String maxValue;
 	
-	private String secondaryTable;
+	private String compareRule;
+	private String secondColumn;
+	
+	private String letterLength;
+	private String startPosition;
+	
 	private ArrayList<String> listOfValues;
 
 	public BusinessRuleConstructor(String recievedData) {
@@ -29,12 +33,15 @@ public class BusinessRuleConstructor {
 
 	public BusinessRule createBusinessRule() {
 		BusinessRule newBusinessRule = new BusinessRule(tableName, columnName, typeOfConstraint);
-
-		if (typeOfConstraint.equals("ACR<") || typeOfConstraint.equals("ACR<=") || typeOfConstraint.equals("ACR=")) {
-			newBusinessRule.setMaxValue(maxValue);
-		}
-		if (typeOfConstraint.equals("ACR>") || typeOfConstraint.equals("ACR>=")) {
-			newBusinessRule.setMinValue(minValue);
+		
+		if (typeOfConstraint.equals("ACR")) {
+			newBusinessRule.setCompareRule(compareRule);
+			if (compareRule.equals("<") || compareRule.equals("<=") || compareRule.equals("=")) {
+				newBusinessRule.setMaxValue(maxValue);
+			}
+			if (compareRule.equals(">") || compareRule.equals(">=")) {
+				newBusinessRule.setMinValue(minValue);
+			}
 		}
 		
 		if (typeOfConstraint.equals("ARR")) {
@@ -45,6 +52,19 @@ public class BusinessRuleConstructor {
 		if (typeOfConstraint.equals("ALR")) {
 			newBusinessRule.setListOfValues(listOfValues);
 		}
+		
+		if (typeOfConstraint.equals("TCR")) {
+			newBusinessRule.setCompareRule(compareRule);
+			newBusinessRule.setSecondColumn(secondColumn);
+		}
+		
+		if (typeOfConstraint.equals("AOR")) {
+			newBusinessRule.setLetterLength(letterLength);
+			newBusinessRule.setStartPosition(startPosition);
+			newBusinessRule.setMinValue(minValue);
+			newBusinessRule.setMaxValue(maxValue);
+		}
+		
 		return newBusinessRule;
 	}
 
@@ -96,13 +116,6 @@ public class BusinessRuleConstructor {
 		this.maxValue = maxValue;
 	}
 	
-	public String getSecondaryTable() {
-		return secondaryTable;
-	}
-
-	public void setSecondaryTable(String secondaryTable) {
-		this.secondaryTable = secondaryTable;
-	}
 
 	public ArrayList<String> getListOfValues() {
 		return listOfValues;
@@ -110,5 +123,37 @@ public class BusinessRuleConstructor {
 
 	public void setListOfValues(ArrayList<String> listOfValues) {
 		this.listOfValues = listOfValues;
+	}
+
+	public String getCompareRule() {
+		return compareRule;
+	}
+
+	public void setCompareRule(String compareRule) {
+		this.compareRule = compareRule;
+	}
+
+	public String getSecondColumn() {
+		return secondColumn;
+	}
+
+	public void setSecondColumn(String secondColumn) {
+		this.secondColumn = secondColumn;
+	}
+
+	public String getLetterLength() {
+		return letterLength;
+	}
+
+	public void setLetterLength(String letterLength) {
+		this.letterLength = letterLength;
+	}
+
+	public String getStartPosition() {
+		return startPosition;
+	}
+
+	public void setStartPosition(String startPosition) {
+		this.startPosition = startPosition;
 	}
 }
