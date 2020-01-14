@@ -22,4 +22,3 @@ public class TargetDatabaseConnector {
 		return targetDatabaseConnection;
 	}
 }
-

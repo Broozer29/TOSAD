@@ -9,12 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import domain.BusinessRule;
-import domain.BusinessRuleConstructor;
-import domain.JSonReader;
 import persistance.ConstraintExecutor;
 import persistance.ConstraintExecutorImpl;
 import persistance.TargetDatabaseConnector;
+import service.BusinessRule;
+import service.BusinessRuleConstructor;
+import service.JSonReader;
 
 public class App {
 	public static void main(String[] args) throws IOException, SQLException {
@@ -26,6 +26,9 @@ public class App {
 		while (scanner.hasNextLine()) {
 			recievedData = scanner.nextLine();
 		}
+		
+		
+		
 
 		BusinessRuleConstructor brConstructor = new BusinessRuleConstructor(recievedData);
 		JSonReader jsonReader = new JSonReader(recievedData, brConstructor);
