@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import service.BusinessRule;
+import domain.businessrules.BusinessRule;
 
 public class ConstraintExecutorImpl implements ConstraintExecutor {
 

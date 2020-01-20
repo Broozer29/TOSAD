@@ -9,14 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import domain.businessrules.BusinessRule;
 import persistance.ConstraintExecutor;
 import persistance.ConstraintExecutorImpl;
 import persistance.TargetDatabaseConnector;
-import service.BusinessRule;
 import service.BusinessRuleConstructor;
 import service.JSonReader;
 
-public class App {
+public class Reciever {
 	public static void main(String[] args) throws IOException, SQLException {
 		String recievedData = "";
 
@@ -33,19 +33,12 @@ public class App {
 		BusinessRuleConstructor brConstructor = new BusinessRuleConstructor(recievedData);
 		JSonReader jsonReader = new JSonReader(recievedData, brConstructor);
 		jsonReader.fillConstructor();
+		
 		BusinessRule generatedBusinessRule = brConstructor.createBusinessRule();
-		generatedBusinessRule.generateBusinessRule();
-
 		System.out.println(generatedBusinessRule.getCode());
 
 //		Connection toolDatabaseConnection = ToolDatabaseConnector.getInstance();
 		Connection targetDatabaseConnection = TargetDatabaseConnector.getInstance();
-		PreparedStatement stmt = targetDatabaseConnection.prepareStatement("select * from persoon");
-		ResultSet rs = stmt.executeQuery();
-		while (rs.next()) {
-			System.out.println(rs.getString(1));
-		}
-		System.out.println("Query werk");
 		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
 		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 	}

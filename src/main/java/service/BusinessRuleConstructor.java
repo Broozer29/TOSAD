@@ -7,6 +7,12 @@ import domain.Column;
 import domain.Operator;
 import domain.Table;
 import domain.Value;
+import domain.businessrules.AttributeCompareRule;
+import domain.businessrules.AttributeListRule;
+import domain.businessrules.AttributeOtherRule;
+import domain.businessrules.AttributeRangeRule;
+import domain.businessrules.BusinessRule;
+import domain.businessrules.TupleCompareRule;
 
 public class BusinessRuleConstructor {
 	private String recievedData;
@@ -37,8 +43,9 @@ public class BusinessRuleConstructor {
 	// TCR: Tuple Compare Rule
 
 	public BusinessRule createBusinessRule() {
-		BusinessRule newBusinessRule = new BusinessRule(table, column, typeOfConstraint);
+		BusinessRule newBusinessRule = null;
 		if (typeOfConstraint.getId().equals("ACR")) {
+			newBusinessRule = new AttributeCompareRule();
 			newBusinessRule.setCompareRule(compareRule);
 			if (compareRule.getCode().equals("<") || compareRule.getCode().equals("<=") || compareRule.getCode().equals("=")) {
 				newBusinessRule.setMaxValue(maxValue);
@@ -50,26 +57,32 @@ public class BusinessRuleConstructor {
 		}
 		
 		if (typeOfConstraint.getId().equals("ARR")) {
+			newBusinessRule = new AttributeRangeRule();
 			newBusinessRule.setMinValue(minValue);
 			newBusinessRule.setMaxValue(maxValue);
 		}
 		
 		if (typeOfConstraint.getId().equals("ALR")) {
+			newBusinessRule = new AttributeListRule();
 			newBusinessRule.setListOfValues(listOfValues);
 		}
 		
 		if (typeOfConstraint.getId().equals("TCR")) {
+			newBusinessRule = new TupleCompareRule();
 			newBusinessRule.setCompareRule(compareRule);
 			newBusinessRule.setSecondColumn(secondColumn);
 		}
 		
 		if (typeOfConstraint.getId().equals("AOR")) {
+			newBusinessRule = new AttributeOtherRule();
 			newBusinessRule.setLetterLength(letterLength);
 			newBusinessRule.setStartPosition(startPosition);
 			newBusinessRule.setMinValue(minValue);
 			newBusinessRule.setMaxValue(maxValue);
 		}
-		
+		newBusinessRule.setTable(table);
+		newBusinessRule.setColumn(column);
+		newBusinessRule.setTypeOfConstraint(typeOfConstraint);
 		return newBusinessRule;
 	}
 

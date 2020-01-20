@@ -2,7 +2,7 @@ package persistance;
 
 import java.sql.Connection;
 
-import service.BusinessRule;
+import domain.businessrules.BusinessRule;
 
 public interface ConstraintExecutor {
 	public void executeConstraint(Connection connection, BusinessRule businessRule);
