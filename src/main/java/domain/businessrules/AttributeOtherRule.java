@@ -21,6 +21,10 @@ public class AttributeOtherRule implements BusinessRule{
 	private ArrayList<Value> listOfValues;
 	private String code = null;
 	
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
+	
 	
 	public void setMinValue(Value minValue) {
 		this.minValue = minValue;
@@ -73,5 +77,15 @@ public class AttributeOtherRule implements BusinessRule{
 		this.code = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + "substr(" + this.column.getName() + ", " + this.startPosition.getGiven()
 		+ " ," + this.letterLength.getGiven() + ")" + " between (" + "'" + this.minValue.getGiven() + "' and " + "'" + this.maxValue.getGiven()
 		+ "')" + ");";
+	}
+	
+	public String getTriggerCode() {
+		return null;
+	}
+
+	@Override
+	public void setTriggerNaam(String triggerNaam) {
+		// TODO Auto-generated method stub
+		
 	}
 }

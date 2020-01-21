@@ -11,8 +11,8 @@ public class TargetDatabaseConnector {
 	public static Connection getInstance() {
 		if (targetDatabaseConnection == null) {
 			try {
-				Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/TosadTarget",
-						"postgres", "Spetter6");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://145.89.157.57:5432/kledingWinkel",
+						"postgres", "S()nt5LogE");
 				targetDatabaseConnection = conn;
 				System.out.println("Connected to the database! (Target)");
 			} catch (SQLException e) {

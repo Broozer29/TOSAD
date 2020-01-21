@@ -20,6 +20,10 @@ public class AttributeCompareRule implements BusinessRule {
 	private Value letterLength;
 	private ArrayList<Value> listOfValues;
 	private String code = null;
+	
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
 
 	public void setMinValue(Value minValue) {
 		this.minValue = minValue;
@@ -60,6 +64,10 @@ public class AttributeCompareRule implements BusinessRule {
 	public void setListOfValues(ArrayList<Value> listOfValues) {
 		this.listOfValues = listOfValues;
 	}
+	
+	public void setTriggerNaam(String triggerNaam) {
+		this.triggerNaam = triggerNaam;
+	}
 
 	public String getCode() {
 		if (this.code == null) {
@@ -69,15 +77,20 @@ public class AttributeCompareRule implements BusinessRule {
 	}
 
 	private void generateCode() {
-		String valueToUse = "";
-		if (compareRule.getCode().equals("=") || compareRule.getCode().equals("<")
-				|| compareRule.getCode().equals("<=")) {
-			valueToUse = this.maxValue.getGiven();
-		}
-		if (compareRule.getCode().equals(">") || compareRule.getCode().equals(">=")) {
-			valueToUse = this.minValue.getGiven();
-		}
 		this.code = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + " "
-				+ this.compareRule.getCode() + " " + valueToUse + ");";
+				+ this.compareRule.getCode() + " " + this.maxValue.getGiven() + ");";
 	}
+	
+	public String getTriggerCode() {
+		if (this.triggerCode == null) {
+			generateTriggerCode();
+		}
+		return this.triggerCode;
+	}
+	
+	private void generateTriggerCode() {
+		
+	}
+
+
 }

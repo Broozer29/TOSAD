@@ -47,13 +47,7 @@ public class BusinessRuleConstructor {
 		if (typeOfConstraint.getId().equals("ACR")) {
 			newBusinessRule = new AttributeCompareRule();
 			newBusinessRule.setCompareRule(compareRule);
-			if (compareRule.getCode().equals("<") || compareRule.getCode().equals("<=") || compareRule.getCode().equals("=")) {
-				newBusinessRule.setMaxValue(maxValue);
-			}
-			if (compareRule.getCode().equals(">") || compareRule.getCode().equals(">=")) {
-
-				newBusinessRule.setMinValue(minValue);
-			}
+			newBusinessRule.setMaxValue(maxValue);
 		}
 		
 		if (typeOfConstraint.getId().equals("ARR")) {

@@ -21,6 +21,10 @@ public class AttributeRangeRule implements BusinessRule{
 	private ArrayList<Value> listOfValues;
 	private String code = null;
 	
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
+	
 	
 	public void setMinValue(Value minValue) {
 		this.minValue = minValue;
@@ -72,5 +76,23 @@ public class AttributeRangeRule implements BusinessRule{
 	private void generateCode() {
 		this.code = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + " between " + this.minValue.getGiven() + " and "
 				+ this.maxValue.getGiven() + ");";
+	}
+	
+	public String getTriggerCode() {
+		return null;
+	}
+	
+	private void generateTriggerCode() {
+		
+	}
+	
+	private void generateCreateTrigger() {
+		this.createTrigger = "CREATE TRIGGER " + "";	
+	}
+
+	@Override
+	public void setTriggerNaam(String triggerNaam) {
+		// TODO Auto-generated method stub
+		
 	}
 }

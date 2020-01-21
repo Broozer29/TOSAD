@@ -20,6 +20,10 @@ public class TupleCompareRule implements BusinessRule{
 	private Value letterLength;
 	private ArrayList<Value> listOfValues;
 	private String code = null;
+
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
 	
 	
 	public void setMinValue(Value minValue) {
@@ -72,5 +76,15 @@ public class TupleCompareRule implements BusinessRule{
 	private void generateCode() {
 		this.code = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + this.compareRule.getCode() + this.secondColumn.getName()
 		+ ");";
+	}
+	
+	public String getTriggerCode() {
+		return null;
+	}
+
+	@Override
+	public void setTriggerNaam(String triggerNaam) {
+		// TODO Auto-generated method stub
+		
 	}
 }

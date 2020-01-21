@@ -20,6 +20,10 @@ public class InterEntityCompareRule implements BusinessRule{
 	private Value letterLength;
 	private ArrayList<Value> listOfValues;
 	private String code = null;
+
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
 	
 	
 	public void setMinValue(Value minValue) {
@@ -67,6 +71,16 @@ public class InterEntityCompareRule implements BusinessRule{
 	}
 	
 	private void generateCode() {
+		
+	}
+	
+	public String getTriggerCode() {
+		return null;
+	}
+
+	@Override
+	public void setTriggerNaam(String triggerNaam) {
+		// TODO Auto-generated method stub
 		
 	}
 }

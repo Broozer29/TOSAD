@@ -56,18 +56,7 @@ public class JSonReader {
 	}
 
 	private void fillAttributeCompareRule(JSONObject jsonObj) {
-		if (jsonObj.getString("typeOfConstraint").equals("ACR")) {
-			if (jsonObj.getString("compareRule").equals("<") || jsonObj.getString("compareRule").equals("=<")) {
-				ruleConstructor.setMaxValue(createValue(jsonObj.getString("maxValue")));
-			}
-			if (jsonObj.getString("compareRule").equals(">") || jsonObj.getString("compareRule").equals(">="))
-				ruleConstructor.setMinValue(createValue(jsonObj.getString("minValue")));
-
-			if (jsonObj.getString("compareRule").equals("=")) {
-				ruleConstructor.setMaxValue(createValue(jsonObj.getString("maxValue")));
-			}
-
-		}
+		ruleConstructor.setMaxValue(createValue(jsonObj.getString("maxValue")));
 		ruleConstructor.setCompareRule(createOperator(jsonObj.getString("compareRule")));
 
 	}

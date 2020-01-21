@@ -21,6 +21,10 @@ public class AttributeListRule implements BusinessRule {
 	private ArrayList<Value> listOfValues;
 	private String code = null;
 	
+	private String triggerCode = null;
+	private String createTrigger = null;
+	private String triggerNaam = null;
+	
 	
 	public void setMinValue(Value minValue) {
 		this.minValue = minValue;
@@ -83,5 +87,15 @@ public class AttributeListRule implements BusinessRule {
 			newList.add(newString);
 		}
 		return newList;
+	}
+	
+	public String getTriggerCode() {
+		return null;
+	}
+
+	@Override
+	public void setTriggerNaam(String triggerNaam) {
+		// TODO Auto-generated method stub
+		
 	}
 }

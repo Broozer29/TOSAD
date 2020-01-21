@@ -19,6 +19,8 @@ public interface BusinessRule {
 	public void setStartPosition(Value startPosition);
 	public void setLetterLength(Value letterLength);
 	public void setListOfValues(ArrayList<Value> listOfValues);
+	public void setTriggerNaam(String triggerNaam);
 	
 	public String getCode();
+	public String getTriggerCode();
 }
