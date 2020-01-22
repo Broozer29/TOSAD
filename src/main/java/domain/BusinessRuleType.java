@@ -4,21 +4,11 @@ import java.util.ArrayList;
 
 public class BusinessRuleType {
 	
-	private ArrayList<Operator> deOperators;
 	private Category category;
 	private String name;
 	private String id;
 	private String description;
 	
-	public BusinessRuleType() {
-		deOperators = new ArrayList<Operator>();
-	}
-	public ArrayList<Operator> getDeOperators() {
-		return deOperators;
-	}
-	public void setDeOperators(ArrayList<Operator> deOperators) {
-		this.deOperators = deOperators;
-	}
 	public Category getCategory() {
 		return category;
 	}

@@ -7,12 +7,6 @@ import org.json.JSONObject;
 
 import domain.BusinessRuleType;
 import domain.Column;
-import domain.ConcreteOperator;
-import domain.Equal;
-import domain.IsNot;
-import domain.Larger;
-import domain.Operator;
-import domain.Smaller;
 import domain.Table;
 import domain.Value;
 
@@ -57,7 +51,7 @@ public class JSonReader {
 
 	private void fillAttributeCompareRule(JSONObject jsonObj) {
 		ruleConstructor.setMaxValue(createValue(jsonObj.getString("maxValue")));
-		ruleConstructor.setCompareRule(createOperator(jsonObj.getString("compareRule")));
+		ruleConstructor.setCompareRule(createValue(jsonObj.getString("compareRule")));
 
 	}
 
@@ -88,7 +82,7 @@ public class JSonReader {
 
 	private void fillTupleCompareRule(JSONObject jsonObj) {
 		ruleConstructor.setSecondColumn(createColumn(jsonObj.getString("secondColumn")));
-		ruleConstructor.setCompareRule(createOperator(jsonObj.getString("compareRule")));
+		ruleConstructor.setCompareRule(createValue(jsonObj.getString("compareRule")));
 	}
 
 	private Table createTable(String tableName) {
@@ -107,30 +101,6 @@ public class JSonReader {
 		Value newValue = new Value();
 		newValue.setGiven(value);
 		return newValue;
-	}
-
-	private Operator createOperator(String operator) {
-		Operator newOperator = new ConcreteOperator();
-		if (operator.equals("!=")) {
-			newOperator = (new Equal(new IsNot(new ConcreteOperator())));
-		}
-		if (operator.equals("=")) {
-			newOperator = (new Equal(new ConcreteOperator()));
-		}
-		if (operator.equals(">")) {
-			newOperator = (new Larger(new ConcreteOperator()));
-		}
-		if (operator.equals("<")) {
-			newOperator = (new Smaller(new ConcreteOperator()));
-		}
-		if (operator.equals("<=")) {
-			newOperator = (new Equal(new Smaller(new ConcreteOperator())));
-		}
-		if (operator.equals(">=")) {
-			newOperator = (new Equal(new Larger(new ConcreteOperator())));
-		}
-		
-		return newOperator;
 	}
 	
 	private BusinessRuleType createBusinessRuleType(String type) {

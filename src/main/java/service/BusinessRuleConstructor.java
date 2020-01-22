@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import domain.BusinessRuleType;
 import domain.Column;
-import domain.Operator;
 import domain.Table;
 import domain.Value;
 import domain.businessrules.AttributeCompareRule;
@@ -23,7 +22,7 @@ public class BusinessRuleConstructor {
 	private Value minValue;
 	private Value maxValue;
 
-	private Operator compareRule;
+	private Value compareRule;
 	private Column secondColumn;
 
 	private Value startPosition;
@@ -128,11 +127,11 @@ public class BusinessRuleConstructor {
 		this.maxValue = maxValue;
 	}
 
-	public Operator getCompareRule() {
+	public Value getCompareRule() {
 		return compareRule;
 	}
 
-	public void setCompareRule(Operator compareRule) {
+	public void setCompareRule(Value compareRule) {
 		this.compareRule = compareRule;
 	}
 

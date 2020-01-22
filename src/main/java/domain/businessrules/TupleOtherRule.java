@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import domain.BusinessRuleType;
 import domain.Column;
-import domain.Operator;
 import domain.Table;
 import domain.Value;
 
 public class TupleOtherRule implements BusinessRule{
 	private Value minValue;
 	private Value maxValue;
-	private Operator compareRule;
+	private Value compareRule;
 	private Table table;
 	private Column column;
 	private Column secondColumn;
@@ -34,7 +33,7 @@ public class TupleOtherRule implements BusinessRule{
 		this.maxValue = maxValue;
 	}
 
-	public void setCompareRule(Operator compareRule) {
+	public void setCompareRule(Value compareRule) {
 		this.compareRule = compareRule;
 	}
 
