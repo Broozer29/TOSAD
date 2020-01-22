@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -13,6 +11,7 @@ import domain.businessrules.BusinessRule;
 import persistance.ConstraintExecutor;
 import persistance.ConstraintExecutorImpl;
 import persistance.TargetDatabaseConnector;
+import persistance.ToolDatabaseConnector;
 import service.BusinessRuleConstructor;
 import service.JSonReader;
 
