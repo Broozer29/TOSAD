@@ -1,17 +1,14 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import domain.BusinessRule;
+import domain.BusinessRuleImpl;
 import domain.BusinessRuleType;
 import domain.Column;
 import domain.Table;
 import domain.Value;
-import domain.businessrules.AttributeCompareRule;
-import domain.businessrules.AttributeListRule;
-import domain.businessrules.AttributeOtherRule;
-import domain.businessrules.AttributeRangeRule;
-import domain.businessrules.BusinessRule;
-import domain.businessrules.TupleCompareRule;
 
 public class BusinessRuleConstructor {
 	private String recievedData;
@@ -27,47 +24,43 @@ public class BusinessRuleConstructor {
 
 	private Value startPosition;
 	private Value letterLength;
+	private Value id;
+	private Value example;
 
 	private ArrayList<Value> listOfValues;
 
-	public BusinessRuleConstructor(String recievedData) {
-		this.recievedData = recievedData;
+	public BusinessRuleConstructor() {
 	}
-	
-	// Legenda voor rules: 
-	// ACR: Attribute Compare Rule 
+
+	// Legenda voor rules:
+	// ACR: Attribute Compare Rule
 	// ARR: Attribute Range Rule
-	// ALR: Attribute List Rule 
-	// AOR: Attribute Other Rule 
+	// ALR: Attribute List Rule
+	// AOR: Attribute Other Rule
 	// TCR: Tuple Compare Rule
 
 	public BusinessRule createBusinessRule() {
-		BusinessRule newBusinessRule = null;
+		BusinessRule newBusinessRule = new BusinessRuleImpl();
 		if (typeOfConstraint.getId().equals("ACR")) {
-			newBusinessRule = new AttributeCompareRule();
 			newBusinessRule.setCompareRule(compareRule);
 			newBusinessRule.setMaxValue(maxValue);
 		}
-		
+
 		if (typeOfConstraint.getId().equals("ARR")) {
-			newBusinessRule = new AttributeRangeRule();
 			newBusinessRule.setMinValue(minValue);
 			newBusinessRule.setMaxValue(maxValue);
 		}
-		
+
 		if (typeOfConstraint.getId().equals("ALR")) {
-			newBusinessRule = new AttributeListRule();
 			newBusinessRule.setListOfValues(listOfValues);
 		}
-		
+
 		if (typeOfConstraint.getId().equals("TCR")) {
-			newBusinessRule = new TupleCompareRule();
 			newBusinessRule.setCompareRule(compareRule);
 			newBusinessRule.setSecondColumn(secondColumn);
 		}
-		
+
 		if (typeOfConstraint.getId().equals("AOR")) {
-			newBusinessRule = new AttributeOtherRule();
 			newBusinessRule.setLetterLength(letterLength);
 			newBusinessRule.setStartPosition(startPosition);
 			newBusinessRule.setMinValue(minValue);
@@ -91,16 +84,19 @@ public class BusinessRuleConstructor {
 		return table;
 	}
 
-	public void setTable(Table table) {
-		this.table = table;
+	public void setTable(List<Table> list) {
+		this.table = list.get(0);
 	}
 
 	public Column getColumn() {
 		return column;
 	}
 
-	public void setColumn(Column column) {
-		this.column = column;
+	public void setColumn(List<Column> list) {
+		this.column = list.get(0);
+		if (list.size() > 1) {
+			this.secondColumn = list.get(1);
+		}
 	}
 
 	public BusinessRuleType getTypeOfConstraint() {
@@ -135,14 +131,6 @@ public class BusinessRuleConstructor {
 		this.compareRule = compareRule;
 	}
 
-	public Column getSecondColumn() {
-		return secondColumn;
-	}
-
-	public void setSecondColumn(Column secondColumn) {
-		this.secondColumn = secondColumn;
-	}
-
 	public Value getStartPosition() {
 		return startPosition;
 	}
@@ -166,5 +154,27 @@ public class BusinessRuleConstructor {
 	public void setListOfValues(ArrayList<Value> listOfValues) {
 		this.listOfValues = listOfValues;
 	}
-	
+
+	public Value getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = changeToValue(Integer.toString(id));
+	}
+
+	public Value getExample() {
+		return example;
+	}
+
+	public void setExample(String example) {
+		this.example = changeToValue(example);
+	}
+
+	private Value changeToValue(String valueData) {
+		Value newValue = new Value();
+		newValue.setGiven(valueData);
+		return newValue;
+	}
+
 }

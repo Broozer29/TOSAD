@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class TargetDatabaseConnector {
 
 	static Connection targetDatabaseConnection = null;
+	
 
 	public static Connection getInstance() {
 		if (targetDatabaseConnection == null) {

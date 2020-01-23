@@ -7,13 +7,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import domain.businessrules.BusinessRule;
+import domain.BusinessRule;
+import domain.BusinessRuleImpl;
+import persistance.BusinessRulePostgresDaoImpl;
 import persistance.ConstraintExecutor;
 import persistance.ConstraintExecutorImpl;
 import persistance.TargetDatabaseConnector;
-import persistance.ToolDatabaseConnector;
-import service.BusinessRuleConstructor;
-import service.JSonReader;
+import service.SQLGenerator;
+import service.SQLGeneratorImpl;
+//import service.JSonReader;
 
 public class Reciever {
 	public static void main(String[] args) throws IOException, SQLException {
@@ -26,16 +28,18 @@ public class Reciever {
 			recievedData = scanner.nextLine();
 		}
 		
+		BusinessRulePostgresDaoImpl businessRuleDao = new BusinessRulePostgresDaoImpl();
+		BusinessRule generatedBusinessRule = new BusinessRuleImpl();
 		
+		int id = 10;
+		generatedBusinessRule = businessRuleDao.findById(id);
+		SQLGenerator sqlGenerator = new SQLGeneratorImpl();
+		generatedBusinessRule.setCode(sqlGenerator.generateCode(generatedBusinessRule));
 		
-
-		BusinessRuleConstructor brConstructor = new BusinessRuleConstructor(recievedData);
-		JSonReader jsonReader = new JSonReader(recievedData, brConstructor);
-		jsonReader.fillConstructor();
+		System.out.println(generatedBusinessRule.getCode().getGiven());
+//		JSonReader jsonReader = new JSonReader(recievedData, brConstructor);
+//		jsonReader.fillConstructor();
 		
-		BusinessRule generatedBusinessRule = brConstructor.createBusinessRule();
-		System.out.println(generatedBusinessRule.getCode());
-
 //		Connection toolDatabaseConnection = ToolDatabaseConnector.getInstance();
 		Connection targetDatabaseConnection = TargetDatabaseConnector.getInstance();
 		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();

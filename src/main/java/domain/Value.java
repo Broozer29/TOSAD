@@ -4,6 +4,7 @@ public class Value {
 
 	private String given;
 	private String dataType;
+	private String ID;
 
 	public Value() {
 
@@ -23,6 +24,14 @@ public class Value {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	public String getID() {
+		return this.ID;
+	}
+	
+	public void setID(String id) {
+		this.ID = id;
 	}
 
 }

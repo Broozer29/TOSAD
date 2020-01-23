@@ -1,16 +1,12 @@
-package domain.businessrules;
+package domain;
 
 import java.util.ArrayList;
 
-import domain.BusinessRuleType;
-import domain.Column;
-import domain.Table;
-import domain.Value;
-
-public class AttributeCompareRule implements BusinessRule {
+public class BusinessRuleImpl implements BusinessRule {
 	private Value minValue;
 	private Value maxValue;
 	private Value compareRule;
+	private Value id;
 	private Table table;
 	private Column column;
 	private Column secondColumn;
@@ -18,11 +14,15 @@ public class AttributeCompareRule implements BusinessRule {
 	private Value startPosition;
 	private Value letterLength;
 	private ArrayList<Value> listOfValues;
-	private String code = null;
+	private Value code = null;
 	
-	private String triggerCode = null;
-	private String createTrigger = null;
+	private Value triggerCode = null;
 	private String triggerNaam = null;
+	
+
+	public void setID(Value idValue) {
+		this.id = idValue;
+	}
 
 	public void setMinValue(Value minValue) {
 		this.minValue = minValue;
@@ -63,33 +63,73 @@ public class AttributeCompareRule implements BusinessRule {
 	public void setListOfValues(ArrayList<Value> listOfValues) {
 		this.listOfValues = listOfValues;
 	}
-	
+
 	public void setTriggerNaam(String triggerNaam) {
 		this.triggerNaam = triggerNaam;
 	}
+	
+	public void setCode(Value code) {
+		this.code = code;
+	}
+	
+	public void setTriggerCode(Value code) {
+		this.triggerCode = code;
+	}
 
-	public String getCode() {
-		if (this.code == null) {
-			generateCode();
-		}
+	public Value getCode() {
 		return this.code;
 	}
 
-	private void generateCode() {
-		this.code = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + " "
-				+ this.compareRule.getGiven() + " " + this.maxValue.getGiven() + ");";
-	}
-	
-	public String getTriggerCode() {
-		if (this.triggerCode == null) {
-			generateTriggerCode();
-		}
+	public Value getTriggerCode() {
 		return this.triggerCode;
 	}
-	
-	private void generateTriggerCode() {
-		
+
+	public Value getID() {
+		return this.id;
 	}
 
+	public Value getMinValue() {
+		return this.minValue;
+	}
+
+	public Value getMaxValue() {
+		return this.maxValue;
+	}
+
+	public Value getCompareRule() {
+		return this.compareRule;
+	}
+
+	public Table getTable() {
+		return this.table;
+	}
+
+	public Column getColumn() {
+		return this.column;
+	}
+
+	public Column getSecondColumn() {
+		return this.secondColumn;
+	}
+
+	public BusinessRuleType getTypeOfConstraint() {
+		return this.businessRuleType;
+	}
+
+	public Value getStartPosition() {
+		return this.startPosition;
+	}
+
+	public Value getLetterLength() {
+		return this.letterLength;
+	}
+
+	public ArrayList<Value> getListOfValues() {
+		return this.listOfValues;
+	}
+
+	public String getTriggerNaam() {
+		return this.triggerNaam;
+	}
 
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import domain.businessrules.BusinessRule;
+import domain.BusinessRule;
 
 public class ConstraintExecutorImpl implements ConstraintExecutor {
 
@@ -12,7 +12,7 @@ public class ConstraintExecutorImpl implements ConstraintExecutor {
 	public void executeConstraint(Connection connection, BusinessRule businessRule) {
 
 		try {
-			PreparedStatement stmt = connection.prepareStatement(businessRule.getCode());
+			PreparedStatement stmt = connection.prepareStatement(businessRule.getCode().getGiven());
 			stmt.execute();
 			stmt.close();
 			System.out.println("Het uitvoeren van de constraint is wel gelukt!");
