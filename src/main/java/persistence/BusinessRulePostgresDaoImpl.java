@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.List;
 
 import domain.BusinessRule;
+import domain.Column;
+import domain.Table;
 import domain.Value;
 
 public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
@@ -50,12 +52,17 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 		BusinessRule b = new BusinessRule();
 
 		try {
+			System.out.println("Ik ga een select * from businessrule query uitvoeren!");
 			String strQuery = "SELECT * FROM BUSINESSRULE WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, id);
+			System.out.println("Ik heb een select * from businessrule query uitgevoerd!");
 			ResultSet rs = pstmt.executeQuery(strQuery);
-
+			System.out.println("Ik heb de resultaten in een resultset gestopt");
+			
 			while (rs.next()) {
+				
+				System.out.println("Mijn resultset is NIET leeg!");
 				int businessRuleID = rs.getInt("ID");
 				b.setDeValues(vpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeColumns(cpdi.findByBusinessRuleID(businessRuleID));
