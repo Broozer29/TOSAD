@@ -2,12 +2,20 @@ package domain;
 
 public class Value {
 
+	private int ID;
 	private String given;
 	private String dataType;
-	private String ID;
 
 	public Value() {
 
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getGiven() {
@@ -24,14 +32,6 @@ public class Value {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
-	}
-
-	public String getID() {
-		return this.ID;
-	}
-	
-	public void setID(String id) {
-		this.ID = id;
 	}
 
 }

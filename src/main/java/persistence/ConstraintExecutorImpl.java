@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ public class ConstraintExecutorImpl implements ConstraintExecutor {
 	public void executeConstraint(Connection connection, BusinessRule businessRule) {
 
 		try {
-			PreparedStatement stmt = connection.prepareStatement(businessRule.getCode().getGiven());
+			PreparedStatement stmt = connection.prepareStatement(businessRule.getConstraint());
 			stmt.execute();
 			stmt.close();
 			System.out.println("Het uitvoeren van de constraint is wel gelukt!");

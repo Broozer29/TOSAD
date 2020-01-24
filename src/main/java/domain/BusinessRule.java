@@ -1,39 +1,95 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import service.BusinessRuleConstructor;
+public class BusinessRule {
 
-public interface BusinessRule {
-	public void setID(Value idValue);
-	
-	public void setMinValue(Value minValue);
-	public void setMaxValue(Value maxValue);
-	public void setCompareRule(Value compareRule);
-	public void setTable(Table table);
-	public void setColumn(Column column);
-	public void setSecondColumn(Column column);
-	public void setTypeOfConstraint(BusinessRuleType businessRuleType);
-	public void setStartPosition(Value startPosition);
-	public void setLetterLength(Value letterLength);
-	public void setListOfValues(ArrayList<Value> listOfValues);
-	public void setTriggerNaam(String triggerNaam);
-	public void setCode(Value value);
-	public void setTriggerCode(Value code);
-	
-	public Value getCode();
-	public Value getTriggerCode();
+	private int ID;
+	private String naam;
+	private List<Value> deValues;
+	private List<Table> deTables;
+	private List<Column> deColumns;
+	private String constraint;
+	private String trigger;
+	private BusinessRuleType ruleType;
+	private String example;
 
-	public Value getID();
-	public Value getMinValue();
-	public Value getMaxValue();
-	public Value getCompareRule();
-	public Table getTable();
-	public Column getColumn();
-	public Column getSecondColumn();
-	public BusinessRuleType getTypeOfConstraint();
-	public Value getStartPosition();
-	public Value getLetterLength();
-	public ArrayList<Value> getListOfValues();
-	public String getTriggerNaam();
+	public BusinessRule() {
+		deValues = new ArrayList<Value>();
+		deTables = new ArrayList<Table>();
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public String getNaam() {
+		return naam;
+	}
+
+	public void setNaam(String naam) {
+		this.naam = naam;
+	}
+
+	public String getConstraint() {
+		return constraint;
+	}
+
+	public void setConstraint(String constraint) {
+		this.constraint = constraint;
+	}
+
+	public String getTrigger() {
+		return trigger;
+	}
+
+	public void setTrigger(String trigger) {
+		this.trigger = trigger;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public List<Column> getDeColumns() {
+		return deColumns;
+	}
+
+	public void setDeColumns(List<Column> list) {
+		this.deColumns = list;
+	}
+
+	public List<Value> getDeValues() {
+		return deValues;
+	}
+
+	public void setDeValues(List<Value> list) {
+		this.deValues = list;
+	}
+
+	public BusinessRuleType getRuleType() {
+		return ruleType;
+	}
+
+	public void setRuleType(BusinessRuleType ruleType) {
+		this.ruleType = ruleType;
+	}
+
+	public String getExample() {
+		return example;
+	}
+
+	public void setExample(String example) {
+		this.example = example;
+	}
+
+	public List<Table> getDeTables() {
+		return deTables;
+	}
+
+	public void setDeTables(List<Table> list) {
+		this.deTables = list;
+	}
+
 }

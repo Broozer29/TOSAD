@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ public class BusinessRuleTypePostgresDaoImpl implements BusinessRuleTypeDao {
 			while (rs.next()) {
 				b.setCategory(cpdi.findByCode(rs.getString("CATEGORY_CODE")));
 				b.setDescription(rs.getString("DESCRIPTION"));
-				b.setId(rs.getString("ID"));
+				b.setCode(rs.getString("CODE"));
 				b.setName(rs.getString("NAME"));
 
 			}
