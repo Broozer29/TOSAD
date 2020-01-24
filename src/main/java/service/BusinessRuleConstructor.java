@@ -11,7 +11,6 @@ import domain.Table;
 import domain.Value;
 
 public class BusinessRuleConstructor {
-	private String recievedData;
 
 	private Table table;
 	private Column column;
@@ -41,6 +40,7 @@ public class BusinessRuleConstructor {
 
 	public BusinessRule createBusinessRule() {
 		BusinessRule newBusinessRule = new BusinessRuleImpl();
+		setAttributes();
 		if (typeOfConstraint.getId().equals("ACR")) {
 			newBusinessRule.setCompareRule(compareRule);
 			newBusinessRule.setMaxValue(maxValue);
@@ -70,14 +70,6 @@ public class BusinessRuleConstructor {
 		newBusinessRule.setColumn(column);
 		newBusinessRule.setTypeOfConstraint(typeOfConstraint);
 		return newBusinessRule;
-	}
-
-	public String getRecievedData() {
-		return recievedData;
-	}
-
-	public void setRecievedData(String recievedData) {
-		this.recievedData = recievedData;
 	}
 
 	public Table getTable() {
@@ -175,6 +167,23 @@ public class BusinessRuleConstructor {
 		Value newValue = new Value();
 		newValue.setGiven(valueData);
 		return newValue;
+	}
+
+	private void setAttributes() {
+		for (Value value : listOfValues) {
+			if (value.getDataType().equals("minValue")) {
+				this.minValue = value;
+			}
+			if (value.getDataType().equals("maxValue")) {
+				this.maxValue = value;
+			}
+			if (value.getDataType().equals("secondColumn")) {
+				this.startPosition = value;
+			}
+			if (value.getDataType().equals("letterLength")) {
+				this.letterLength = value;
+			}
+		}
 	}
 
 }

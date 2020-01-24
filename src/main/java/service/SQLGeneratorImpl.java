@@ -13,33 +13,6 @@ public class SQLGeneratorImpl implements SQLGenerator {
 		String typeOfRule = getTypeOfRule(businessRule);
 		switch (typeOfRule) {
 		case "AttributeCompareRule":
-			break;
-		case "AttributeListRule":
-			break;
-		case "AttributeOtherRule":
-			break;
-		case "AttributeRangeRule":
-			break;
-		case "EntityOtherRule":
-			break;
-		case "InterEntityCompareRule":
-			break;
-		case "ModifyRule":
-			break;
-		case "TupleCompareRule":
-			break;
-		case "TupleOtherRule":
-			break;
-		}
-
-		return generateCode;
-	}
-
-	public Value generateTriggerCode(BusinessRule businessRule) {
-		Value generateCode = new Value();
-		String typeOfRule = getTypeOfRule(businessRule);
-		switch (typeOfRule) {
-		case "AttributeCompareRule":
 			generateAttributeCompareConstraint(businessRule);
 			break;
 		case "AttributeListRule":
@@ -59,6 +32,33 @@ public class SQLGeneratorImpl implements SQLGenerator {
 			break;
 		case "TupleCompareRule":
 			generateTupleCompareConstraint(businessRule);
+			break;
+		case "TupleOtherRule":
+			break;
+		}
+
+		return generateCode;
+	}
+
+	public Value generateTriggerCode(BusinessRule businessRule) {
+		Value generateCode = new Value();
+		String typeOfRule = getTypeOfRule(businessRule);
+		switch (typeOfRule) {
+		case "AttributeCompareRule":
+			break;
+		case "AttributeListRule":
+			break;
+		case "AttributeOtherRule":
+			break;
+		case "AttributeRangeRule":
+			break;
+		case "EntityOtherRule":
+			break;
+		case "InterEntityCompareRule":
+			break;
+		case "ModifyRule":
+			break;
+		case "TupleCompareRule":
 			break;
 		case "TupleOtherRule":
 			break;
