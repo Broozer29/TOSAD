@@ -1,12 +1,13 @@
-package persistence;
+package persistence.tool.category.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import domain.BusinessRuleType;
 import domain.Category;
+import persistence.tool.category.CategoryDao;
+import persistence.tool.connection.postgres.PostgresBaseDao;
 
 public class CategoryPostgresDaoImpl implements CategoryDao {
 

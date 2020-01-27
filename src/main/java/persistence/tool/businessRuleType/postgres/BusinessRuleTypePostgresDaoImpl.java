@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.businessRuleType.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import domain.BusinessRuleType;
+import persistence.tool.businessRuleType.BusinessRuleTypeDao;
+import persistence.tool.category.CategoryDao;
+import persistence.tool.category.postgres.CategoryPostgresDaoImpl;
+import persistence.tool.connection.postgres.PostgresBaseDao;
 
 public class BusinessRuleTypePostgresDaoImpl implements BusinessRuleTypeDao {
 

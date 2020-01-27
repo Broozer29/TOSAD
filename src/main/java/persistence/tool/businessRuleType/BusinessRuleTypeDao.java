@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.businessRuleType;
 
 import domain.BusinessRuleType;
 

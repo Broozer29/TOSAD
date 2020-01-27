@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.value;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface ValueDao {
 	
 	public List<Value> findByBusinessRuleID(int BusinessRuleID);
 	
-	public boolean save(Value v);
+	public boolean save(Value v, int businessRuleID);
 	
 	public boolean update(Value v);
 	

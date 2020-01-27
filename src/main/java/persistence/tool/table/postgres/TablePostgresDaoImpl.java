@@ -1,26 +1,29 @@
-package persistence;
+package persistence.tool.table.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import domain.Table;
+import persistence.tool.connection.postgres.PostgresBaseDao;
+import persistence.tool.table.TableDao;
 
 public class TablePostgresDaoImpl implements TableDao {
 	
 	private static Connection conn = PostgresBaseDao.getConnection();
 
 	@Override
-	public List<Table> findByBusinessRuleID(int BusinessRuleID) {
+	public List<Table> findByBusinessRuleID(int businessID) {
 		List<Table> deTables = new ArrayList<Table>();
 
 		try {
-			String strQuery = "SELECT * FROM Table WHERE BUSINESSRULE_ID = ?";
+			String strQuery = "SELECT * FROM TABLENAME JOIN BUSINESSRULEKOPPELTABLENAME AS BKT ON TABLENAME_NAME = NAME WHERE BKT.BUSINESSRULE_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setInt(0, BusinessRuleID);
+			pstmt.setInt(0, businessID);
 			ResultSet rs = pstmt.executeQuery(strQuery);
 
 			while (rs.next()) {
@@ -40,7 +43,7 @@ public class TablePostgresDaoImpl implements TableDao {
 	public boolean save(Table t) {
 		try {
 
-			String strQuery = "INSERT INTO Table (NAME) values(?)";
+			String strQuery = "INSERT INTO TABLENAME (NAME) values(?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(1, t.getName());
 			pstmt.executeUpdate();
@@ -55,7 +58,7 @@ public class TablePostgresDaoImpl implements TableDao {
 	public boolean update(Table t) {
 		try {
 
-			String strQuery = "update Table SET NAME = ? WHERE NAME = ?";
+			String strQuery = "update TABLENAME SET NAME = ? WHERE NAME = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(1, t.getName());
 			pstmt.setString(2, t.getName());
@@ -67,21 +70,7 @@ public class TablePostgresDaoImpl implements TableDao {
 		}
 	}
 
-	@Override
-	public boolean delete(Table t) {
-		try {
 
-			String strQuery = "DELETE FROM Table WHERE NAME = ?";
-			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setString(1, t.getName());
-			pstmt.executeUpdate();
-			return true;
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-			return false;
-		}
-	}
-	
 	
 
 }

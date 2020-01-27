@@ -8,10 +8,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import domain.BusinessRule;
-import persistence.BusinessRulePostgresDaoImpl;
-import persistence.ConstraintExecutor;
-import persistence.ConstraintExecutorImpl;
-import persistence.TargetDatabaseConnector;
+import persistence.target.TargetDb;
+import persistence.tool.businessRule.postgres.BusinessRulePostgresDaoImpl;
 import service.ConstraintGenerator;
 import service.ConstraintGeneratorImpl;
 import service.JSonReader;
@@ -47,8 +45,8 @@ public class Reciever {
 			//
 		}
 
-		Connection targetDatabaseConnection = TargetDatabaseConnector.getInstance();
-		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
-		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
+//		Connection targetDatabaseConnection = new TargetDb();
+//		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
+//		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 	}
 }

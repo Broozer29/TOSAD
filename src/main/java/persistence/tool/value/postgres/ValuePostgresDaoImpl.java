@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.value.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Value;
+import persistence.tool.connection.postgres.PostgresBaseDao;
+import persistence.tool.value.ValueDao;
 
 public class ValuePostgresDaoImpl implements ValueDao {
 
@@ -39,14 +41,15 @@ public class ValuePostgresDaoImpl implements ValueDao {
 	}
 
 	@Override
-	public boolean save(Value v) {
+	public boolean save(Value v, int businessRuleID) {
 		try {
 
-			String strQuery = "INSERT INTO VALUE (ID, GIVEN, DATATYPE) VALUES(?, ?, ?)";
+			String strQuery = "INSERT INTO VALUE (ID, BUSINESSRULE_ID, GIVEN, DATATYPE) VALUES(?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, v.getID());
-			pstmt.setString(2, v.getGiven());
-			pstmt.setString(3, v.getDataType());
+			pstmt.setInt(2, businessRuleID);
+			pstmt.setString(3, v.getGiven());
+			pstmt.setString(4, v.getDataType());
 			pstmt.executeUpdate();
 			return true;
 		} catch (SQLException sqle) {

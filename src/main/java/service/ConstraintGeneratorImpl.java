@@ -23,19 +23,19 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 		setDefaultValues(businessRule);
 
 		switch (typeOfRule.getName()) {
-		case "AttributeCompareRule":
+		case "ACMP":
 			generateCode = generateAttributeCompareConstraint(businessRule);
 			break;
-		case "AttributeListRule":
+		case "ALIS":
 			generateCode = generateAttributeListConstraint(businessRule);
 			break;
-		case "AttributeOtherRule":
+		case "AOTH":
 			generateCode = generateAttributeOtherConstraint(businessRule);
 			break;
-		case "AttributeRangeRule":
+		case "ARNG":
 			generateCode = generateAttributeRangeConstraint(businessRule);
 			break;
-		case "TupleCompareRule":
+		case "TCMP":
 			generateCode = generateTupleCompareConstraint(businessRule);
 			break;
 		}

@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.column;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ public interface ColumnDao {
 	public boolean save(Column c);
 	
 	public boolean update(Column c);
-	
-	public boolean delete(Column c);
+
 
 }

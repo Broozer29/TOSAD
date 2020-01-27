@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.businessRule.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,20 @@ import domain.BusinessRule;
 import domain.Column;
 import domain.Table;
 import domain.Value;
+import persistence.tool.businessRule.BusinessRuleDao;
+import persistence.tool.businessRuleType.BusinessRuleTypeDao;
+import persistence.tool.businessRuleType.postgres.BusinessRuleTypePostgresDaoImpl;
+import persistence.tool.column.ColumnDao;
+import persistence.tool.column.postgres.ColumnPostgresDaoImpl;
+import persistence.tool.columnKoppelBusinessRule.ColumnKoppelBusinessRuleDao;
+import persistence.tool.columnKoppelBusinessRule.postgres.ColumnKoppelBusinessRulePostgresDaoImpl;
+import persistence.tool.connection.postgres.PostgresBaseDao;
+import persistence.tool.table.TableDao;
+import persistence.tool.table.postgres.TablePostgresDaoImpl;
+import persistence.tool.tableKoppelBusinessRule.TableKoppelBusinessRuleDao;
+import persistence.tool.tableKoppelBusinessRule.postgres.TableKoppelBusinessRulePostgresDaoImpl;
+import persistence.tool.value.ValueDao;
+import persistence.tool.value.postgres.ValuePostgresDaoImpl;
 
 public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 
@@ -19,6 +33,8 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	private ValueDao vpdi = new ValuePostgresDaoImpl();
 	private ColumnDao cpdi = new ColumnPostgresDaoImpl();
 	private TableDao tpdi = new TablePostgresDaoImpl();
+	private ColumnKoppelBusinessRuleDao ckbrpdi = new ColumnKoppelBusinessRulePostgresDaoImpl();
+	private TableKoppelBusinessRuleDao tkbrpdi = new TableKoppelBusinessRulePostgresDaoImpl();
 
 	@Override
 	public List<BusinessRule> findAll() {
@@ -52,17 +68,12 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 		BusinessRule b = new BusinessRule();
 
 		try {
-			System.out.println("Ik ga een select * from businessrule query uitvoeren!");
 			String strQuery = "SELECT * FROM BUSINESSRULE WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, id);
-			System.out.println("Ik heb een select * from businessrule query uitgevoerd!");
 			ResultSet rs = pstmt.executeQuery(strQuery);
-			System.out.println("Ik heb de resultaten in een resultset gestopt");
-			
+
 			while (rs.next()) {
-				
-				System.out.println("Mijn resultset is NIET leeg!");
 				int businessRuleID = rs.getInt("ID");
 				b.setDeValues(vpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeColumns(cpdi.findByBusinessRuleID(businessRuleID));
@@ -83,14 +94,21 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	public boolean save(BusinessRule b) {
 		try {
 
-			String strQuery = "INSERT INTO BUSINESSRULE (ID, BUSINESSRULETYPE_CODE, EXAMPLE) VALUES(?, ?, ?)";
+			String strQuery = "INSERT INTO BUSINESSRULE (ID, BUSINESSRULETYPE_CODE, TYPE_OF_CODE, EXAMPLE) VALUES(?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, b.getID());
 			pstmt.setString(2, b.getRuleType().getCode());
-			pstmt.setString(3, b.getExample());
+			pstmt.setString(3, b.getTypeOfCode());
+			pstmt.setString(4, b.getExample());
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
-				vpdi.save(i);
+				vpdi.save(i, b.getID());
+			}
+			for (Table i : b.getDeTables()) {
+				tkbrpdi.save(b.getID(), i.getName());
+			}
+			for (Column i : b.getDeColumns()) {
+				ckbrpdi.save(b.getID(), i.getName());
 			}
 			return true;
 		} catch (SQLException sqle) {
@@ -103,16 +121,18 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	public boolean update(BusinessRule b) {
 		try {
 
-			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, EXAMPLE = ? WHERE ID = ?";
+			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, TYPE_OF_CODE = ?, EXAMPLE = ? WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, b.getID());
 			pstmt.setString(2, b.getRuleType().getCode());
-			pstmt.setString(3, b.getExample());
-			pstmt.setInt(4, b.getID());
+			pstmt.setString(3, b.getTypeOfCode());
+			pstmt.setString(4, b.getExample());
+			pstmt.setInt(5, b.getID());
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
 				vpdi.update(i);
 			}
+			
 
 			return true;
 		} catch (SQLException sqle) {
@@ -131,6 +151,12 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
 				vpdi.delete(i);
+			}
+			for (Table i : b.getDeTables()) {
+				tkbrpdi.save(b.getID(), i.getName());
+			}
+			for (Column i : b.getDeColumns()) {
+				ckbrpdi.save(b.getID(), i.getName());
 			}
 			return true;
 		} catch (SQLException sqle) {

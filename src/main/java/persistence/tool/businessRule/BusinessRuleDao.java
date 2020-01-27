@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.businessRule;
 
 import java.util.List;
 

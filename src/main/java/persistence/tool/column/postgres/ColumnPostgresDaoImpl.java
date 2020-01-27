@@ -1,13 +1,16 @@
-package persistence;
+package persistence.tool.column.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import domain.Column;
+import persistence.tool.column.ColumnDao;
+import persistence.tool.connection.postgres.PostgresBaseDao;
 
 public class ColumnPostgresDaoImpl implements ColumnDao{
 	
@@ -18,7 +21,7 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 		List<Column> deColumns = new ArrayList<Column>();
 
 		try {
-			String strQuery = "SELECT * FROM COLUMN WHERE BUSINESSRULE_ID = ?";
+			String strQuery = "SELECT * FROM COLUMNNAME JOIN BUSINESSRULEKOPPELCOLUMNNAME AS BKC ON COLUMNNAME_NAME = NAME WHERE BKC.BUSINESSRULE_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(0, BusinessRuleID);
 			ResultSet rs = pstmt.executeQuery(strQuery);
@@ -40,7 +43,7 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 	public boolean save(Column c) {
 		try {
 
-			String strQuery = "INSERT INTO COLUMN (NAME) values(?)";
+			String strQuery = "INSERT INTO COLUMNNAME (NAME) values(?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(1, c.getName());
 			pstmt.executeUpdate();
@@ -55,7 +58,7 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 	public boolean update(Column c) {
 		try {
 
-			String strQuery = "update COLUMN SET NAME = ? WHERE NAME = ?";
+			String strQuery = "update COLUMNNAME SET NAME = ? WHERE NAME = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(1, c.getName());
 			pstmt.setString(2, c.getName());
@@ -67,19 +70,5 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 		}
 	}
 
-	@Override
-	public boolean delete(Column c) {
-		try {
-
-			String strQuery = "DELETE FROM COLUMN WHERE NAME = ?";
-			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setString(1, c.getName());
-			pstmt.executeUpdate();
-			return true;
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-			return false;
-		}
-	}
 
 }

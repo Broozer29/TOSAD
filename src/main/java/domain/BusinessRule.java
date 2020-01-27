@@ -12,12 +12,21 @@ public class BusinessRule {
 	private List<Column> deColumns;
 	private String constraint;
 	private String trigger;
+	private String typeOfCode;
 	private BusinessRuleType ruleType;
 	private String example;
 
 	public BusinessRule() {
 		deValues = new ArrayList<Value>();
 		deTables = new ArrayList<Table>();
+	}
+
+	public String getTypeOfCode() {
+		return typeOfCode;
+	}
+
+	public void setTypeOfCode(String typeOfCode) {
+		this.typeOfCode = typeOfCode;
 	}
 
 	public int getID() {

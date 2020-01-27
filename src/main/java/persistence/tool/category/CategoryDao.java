@@ -1,4 +1,4 @@
-package persistence;
+package persistence.tool.category;
 
 import domain.Category;
 
