@@ -12,5 +12,7 @@ public interface ColumnDao {
 	
 	public boolean update(Column c);
 
+	boolean findByName(String name);
+
 
 }

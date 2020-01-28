@@ -22,7 +22,7 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 		BusinessRuleType typeOfRule = businessRule.getRuleType();
 		setDefaultValues(businessRule);
 
-		switch (typeOfRule.getName()) {
+		switch (typeOfRule.getCode()) {
 		case "ACMP":
 			generateCode = generateAttributeCompareConstraint(businessRule);
 			break;

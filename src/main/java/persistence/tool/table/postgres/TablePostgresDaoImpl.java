@@ -23,12 +23,12 @@ public class TablePostgresDaoImpl implements TableDao {
 		try {
 			String strQuery = "SELECT * FROM TABLENAME JOIN BUSINESSRULEKOPPELTABLENAME AS BKT ON TABLENAME_NAME = NAME WHERE BKT.BUSINESSRULE_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setInt(0, businessID);
-			ResultSet rs = pstmt.executeQuery(strQuery);
+			pstmt.setInt(1, businessID);
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				Table t = new Table();
-				t.setName("NAME");
+				t.setName(rs.getString("NAME"));
 				deTables.add(t);
 
 			}
@@ -68,6 +68,26 @@ public class TablePostgresDaoImpl implements TableDao {
 			sqle.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public boolean findByName(String name) {
+		
+		try {
+			String strQuery = "SELECT * FROM TABLENAME WHERE NAME = ?";
+			PreparedStatement pstmt = conn.prepareStatement(strQuery);
+			pstmt.setString(1, name);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				return true;
+
+			}
+		} catch (SQLException sqle) {
+
+		}
+		
+		return false;
 	}
 
 

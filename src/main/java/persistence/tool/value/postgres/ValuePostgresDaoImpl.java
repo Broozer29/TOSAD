@@ -22,8 +22,8 @@ public class ValuePostgresDaoImpl implements ValueDao {
 		try {
 			String strQuery = "SELECT * FROM VALUE WHERE BUSINESSRULE_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setInt(0, BusinessRuleID);
-			ResultSet rs = pstmt.executeQuery(strQuery);
+			pstmt.setInt(1, BusinessRuleID);
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				Value v = new Value();

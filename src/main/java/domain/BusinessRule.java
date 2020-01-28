@@ -100,5 +100,8 @@ public class BusinessRule {
 	public void setDeTables(List<Table> list) {
 		this.deTables = list;
 	}
-
+	
+	public String toString() {
+		return this.naam + " " + this.ID + " " + this.ruleType;
+	}
 }

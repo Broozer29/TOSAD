@@ -8,11 +8,16 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import domain.BusinessRule;
-import persistence.target.TargetDb;
+import persistence.target.ConstraintExecutor;
+import persistence.target.ConstraintExecutorImpl;
+import persistence.target.TargetDatabaseConnector;
 import persistence.tool.businessRule.postgres.BusinessRulePostgresDaoImpl;
 import service.ConstraintGenerator;
 import service.ConstraintGeneratorImpl;
 import service.JSonReader;
+import service.trigger.AttributeRangeRuleGenerator;
+import service.trigger.EntityOtherRuleGenerator;
+import service.trigger.TriggerGenerator;
 
 public class Reciever {
 	public static void main(String[] args) throws IOException, SQLException {
@@ -23,7 +28,7 @@ public class Reciever {
 		while (scanner.hasNextLine()) {
 			recievedData = scanner.nextLine();
 		}
-		
+
 		System.out.println(recievedData);
 
 		BusinessRulePostgresDaoImpl businessRuleDao = new BusinessRulePostgresDaoImpl();
@@ -37,15 +42,25 @@ public class Reciever {
 
 		if (typeOfSQL.equals("constraint")) {
 			ConstraintGenerator sqlGenerator = new ConstraintGeneratorImpl();
-			System.out.println(sqlGenerator.generateCode(generatedBusinessRule));
 			generatedBusinessRule.setConstraint(sqlGenerator.generateCode(generatedBusinessRule));
-		}
-		
-		if (typeOfSQL.equals("trigger")) {
-			//
+			System.out.println(generatedBusinessRule.getConstraint());
 		}
 
-//		Connection targetDatabaseConnection = new TargetDb();
+		if (typeOfSQL.equals("trigger")) {
+			if (generatedBusinessRule.getRuleType().getCode().equals("ARNG")) {
+				TriggerGenerator triggerGenerator = new AttributeRangeRuleGenerator();
+				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+			}
+			if (generatedBusinessRule.getRuleType().getCode().equals("EOTH")) {
+				TriggerGenerator triggerGenerator = new EntityOtherRuleGenerator();
+				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+			}
+			System.out.println(generatedBusinessRule.getTrigger());
+		}
+		
+
+
+//		Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
 //		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
 //		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 	}

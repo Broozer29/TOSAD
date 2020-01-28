@@ -50,7 +50,11 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 				b.setDeValues(vpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeColumns(cpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeTables(tpdi.findByBusinessRuleID(businessRuleID));
+				b.setExample(rs.getString("NAAM"));
 				b.setExample(rs.getString("EXAMPLE"));
+				b.setExample(rs.getString("CONSTRAINT_CODE"));
+				b.setExample(rs.getString("TRIGGER_CODE"));
+				b.setExample(rs.getString("TYPE_OF_CONSTRAINT"));
 				b.setID(businessRuleID);
 				b.setRuleType(brtpdi.findByCode(rs.getString("BUSINESSRULETYPE_CODE")));
 //				b.setTypeOfConstraint(typeOfConstraint);
@@ -71,20 +75,27 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 			String strQuery = "SELECT * FROM BUSINESSRULE WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery(strQuery);
-
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
+
 				int businessRuleID = rs.getInt("ID");
 				b.setDeValues(vpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeColumns(cpdi.findByBusinessRuleID(businessRuleID));
 				b.setDeTables(tpdi.findByBusinessRuleID(businessRuleID));
+				b.setNaam(rs.getString("NAAM"));
 				b.setExample(rs.getString("EXAMPLE"));
+				b.setConstraint(rs.getString("CONSTRAINT_CODE"));
+				b.setTrigger(rs.getString("TRIGGER_CODE"));
+
+				b.setTypeOfCode(rs.getString("TYPE_OF_CODE"));
 				b.setID(businessRuleID);
 				b.setRuleType(brtpdi.findByCode(rs.getString("BUSINESSRULETYPE_CODE")));
 
 			}
+			
+			return b;
 		} catch (SQLException sqle) {
-
+			System.out.println(sqle);
 		}
 
 		return b;
@@ -94,12 +105,15 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	public boolean save(BusinessRule b) {
 		try {
 
-			String strQuery = "INSERT INTO BUSINESSRULE (ID, BUSINESSRULETYPE_CODE, TYPE_OF_CODE, EXAMPLE) VALUES(?, ?, ?, ?)";
+			String strQuery = "INSERT INTO BUSINESSRULE (ID, BUSINESSRULETYPE_CODE, TYPE_OF_CODE, EXAMPLE, CONSTRAINT_CODE, TRIGGER_CODE, TYPE_OF_CODE) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, b.getID());
 			pstmt.setString(2, b.getRuleType().getCode());
 			pstmt.setString(3, b.getTypeOfCode());
 			pstmt.setString(4, b.getExample());
+			pstmt.setString(5, b.getConstraint());
+			pstmt.setString(6, b.getTrigger());
+			pstmt.setString(7, b.getTypeOfCode());
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
 				vpdi.save(i, b.getID());
@@ -121,13 +135,16 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	public boolean update(BusinessRule b) {
 		try {
 
-			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, TYPE_OF_CODE = ?, EXAMPLE = ? WHERE ID = ?";
+			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, TYPE_OF_CODE = ?, EXAMPLE = ?, CONSTRAINT_CODE = ?, TRIGGER_CODE = ?, TYPE_OF_CODE = ? WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, b.getID());
 			pstmt.setString(2, b.getRuleType().getCode());
 			pstmt.setString(3, b.getTypeOfCode());
 			pstmt.setString(4, b.getExample());
-			pstmt.setInt(5, b.getID());
+			pstmt.setString(5, b.getConstraint());
+			pstmt.setString(6, b.getTrigger());
+			pstmt.setString(7, b.getTypeOfCode());
+			pstmt.setInt(8, b.getID());
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
 				vpdi.update(i);

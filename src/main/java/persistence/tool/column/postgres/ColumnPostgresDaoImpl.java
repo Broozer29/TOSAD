@@ -12,8 +12,8 @@ import domain.Column;
 import persistence.tool.column.ColumnDao;
 import persistence.tool.connection.postgres.PostgresBaseDao;
 
-public class ColumnPostgresDaoImpl implements ColumnDao{
-	
+public class ColumnPostgresDaoImpl implements ColumnDao {
+
 	private static Connection conn = PostgresBaseDao.getConnection();
 
 	@Override
@@ -23,12 +23,12 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 		try {
 			String strQuery = "SELECT * FROM COLUMNNAME JOIN BUSINESSRULEKOPPELCOLUMNNAME AS BKC ON COLUMNNAME_NAME = NAME WHERE BKC.BUSINESSRULE_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setInt(0, BusinessRuleID);
-			ResultSet rs = pstmt.executeQuery(strQuery);
+			pstmt.setInt(1, BusinessRuleID);
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				Column c = new Column();
-				c.setName("NAME");
+				c.setName(rs.getString("NAME"));
 				deColumns.add(c);
 
 			}
@@ -70,5 +70,24 @@ public class ColumnPostgresDaoImpl implements ColumnDao{
 		}
 	}
 
+	@Override
+	public boolean findByName(String name) {
+
+		try {
+			String strQuery = "SELECT * FROM COLUMNNAME WHERE NAME = ?";
+			PreparedStatement pstmt = conn.prepareStatement(strQuery);
+			pstmt.setString(1, name);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				return true;
+
+			}
+
+		} catch (SQLException sqle) {
+
+		}
+		return false;
+	}
 
 }

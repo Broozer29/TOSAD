@@ -21,7 +21,7 @@ public class CategoryPostgresDaoImpl implements CategoryDao {
 			String strQuery = "SELECT * FROM CATEGORY WHERE CODE = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(0, code);
-			ResultSet rs = pstmt.executeQuery(strQuery);
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				c.setName(rs.getString("NAME"));

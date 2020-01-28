@@ -6,7 +6,9 @@ import domain.Table;
 
 public interface TableDao {
 	
-	List<Table> findByBusinessRuleID(int businessID);
+	public List<Table> findByBusinessRuleID(int businessID);
+	
+	public boolean findByName(String name);
 	
 	public boolean save(Table t);
 	

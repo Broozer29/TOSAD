@@ -21,10 +21,10 @@ public class BusinessRuleTypePostgresDaoImpl implements BusinessRuleTypeDao {
 		BusinessRuleType b = new BusinessRuleType();
 
 		try {
-			String strQuery = "SELECT * FROM BusinessRuleType CODE = ?";
+			String strQuery = "SELECT * FROM BusinessRuleType WHERE CODE = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
-			pstmt.setString(0, code);
-			ResultSet rs = pstmt.executeQuery(strQuery);
+			pstmt.setString(1, code);
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				b.setCategory(cpdi.findByCode(rs.getString("CATEGORY_CODE")));
@@ -34,7 +34,7 @@ public class BusinessRuleTypePostgresDaoImpl implements BusinessRuleTypeDao {
 
 			}
 		} catch (SQLException sqle) {
-
+			System.out.println(sqle);
 		}
 
 		return b;
