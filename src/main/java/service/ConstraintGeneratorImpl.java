@@ -46,8 +46,9 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 	private String generateAttributeCompareConstraint(BusinessRule businessRule) {
 		Value operatorValue = getOperaterValue(businessRule);
 		Value maxValue = getMaxValue(businessRule);
-		return "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + " "
-				+ operatorValue.getGiven() + " " + maxValue.getGiven() + ");";
+
+		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
+				+ this.column.getName() + " " + operatorValue.getGiven() + " " + maxValue.getGiven() + ");";
 	}
 
 	private ArrayList<String> convertListOfValues(BusinessRule businessRule) {
@@ -61,8 +62,8 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 
 	private String generateAttributeListConstraint(BusinessRule businessRule) {
 		ArrayList<String> stringValueList = convertListOfValues(businessRule);
-		String generateCode = "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + " status in " + "("
-				+ stringValueList + ")" + ");";
+		String generateCode = "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam()
+				+ " CHECK " + this.column.getName() + " IN " + "(" + stringValueList + ")" + ");";
 		generateCode = generateCode.replace("[", "");
 		generateCode = generateCode.replace("]", "");
 		return generateCode;
@@ -83,23 +84,23 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 			}
 		}
 
-		return "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + "substr(" + this.column.getName() + ", "
-				+ startPosition.getGiven() + " ," + letterLength.getGiven() + ")" + " between (" + "'"
-				+ minValue.getGiven() + "' and " + "'" + maxValue.getGiven() + "')" + ");";
+		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
+				+ "substr(" + this.column.getName() + ", " + startPosition.getGiven() + " ," + letterLength.getGiven()
+				+ ")" + " between (" + "'" + minValue.getGiven() + "' and " + "'" + maxValue.getGiven() + "')" + ");";
 	}
 
 	private String generateAttributeRangeConstraint(BusinessRule businessRule) {
 		Value minValue = getMinValue(businessRule);
 		Value maxValue = getMaxValue(businessRule);
 
-		return "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + " between "
-				+ minValue.getGiven() + " and " + maxValue.getGiven() + ");";
+		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT" + businessRule.getNaam() + " CHECK " + "("
+				+ this.column.getName() + " between " + minValue.getGiven() + " and " + maxValue.getGiven() + ");";
 	}
 
 	private String generateTupleCompareConstraint(BusinessRule businessRule) {
 		Value compareValue = getOperaterValue(businessRule);
-		return "ALTER TABLE " + this.table.getName() + " ADD CHECK (" + this.column.getName() + compareValue.getGiven()
-				+ this.secondColumn.getName() + ");";
+		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
+				+ this.column.getName() + " " + compareValue.getGiven() + " " + this.secondColumn.getName() + ");";
 	}
 
 	private void setDefaultValues(BusinessRule businessRule) {

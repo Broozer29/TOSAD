@@ -60,8 +60,8 @@ public class Reciever {
 		
 
 
-//		Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
-//		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
-//		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
+		Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
+		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
+		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 	}
 }

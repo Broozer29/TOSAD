@@ -7,19 +7,26 @@ import java.sql.SQLException;
 public class TargetDatabaseConnector {
 
 	static Connection targetDatabaseConnection = null;
-	
 
 	public static Connection getInstance() {
 		if (targetDatabaseConnection == null) {
+			String DB_DRIV = "oracle.jdbc.driver.OracleDriver";
+			String DB_URL = "jdbc:oracle:thin:@//ondora04.hu.nl:8521/EDUC24";
+			String DB_USER = "Simeon";
+			String DB_PASS = "simeon";
+
 			try {
-				Connection conn = DriverManager.getConnection("jdbc:sqlserver://145.89.157.57:8521/TOCBAteam@EDU24",
-						"cursist", "cursist");
-				targetDatabaseConnection = conn;
-				System.out.println("Connected to the database! (Target)");
+				Class.forName(DB_DRIV).newInstance();
+				targetDatabaseConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+				System.out.println("Ik heb verbinding!!!");
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
+				e1.printStackTrace();
 			} catch (SQLException e) {
-				throw new RuntimeException(String.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage()));
+				e.printStackTrace();
 			}
+
 		}
+		System.out.println(targetDatabaseConnection);
 		return targetDatabaseConnection;
 	}
 }

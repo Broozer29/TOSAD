@@ -1,8 +1,8 @@
 package persistence.target;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import domain.BusinessRule;
 
@@ -12,9 +12,10 @@ public class ConstraintExecutorImpl implements ConstraintExecutor {
 	public void executeConstraint(Connection connection, BusinessRule businessRule) {
 		if (businessRule.getTypeOfCode().equals("constraint")) {
 			try {
-				PreparedStatement stmt = connection.prepareStatement(businessRule.getConstraint());
-				stmt.execute();
-				stmt.close();
+				Statement st = connection.createStatement();
+				st.executeUpdate(businessRule.getConstraint());
+				connection.commit();
+				st.close();
 				System.out.println("Het uitvoeren van de constraint is wel gelukt!");
 			} catch (SQLException e) {
 				System.out.println("Het uitvoeren van de constraint is niet gelukt!");
@@ -25,9 +26,10 @@ public class ConstraintExecutorImpl implements ConstraintExecutor {
 		if (businessRule.getTypeOfCode().equals("trigger")) {
 			try {
 				System.out.println("\n" + businessRule.getTrigger() + "\n");
-				PreparedStatement stmt = connection.prepareStatement(businessRule.getTrigger());
-				stmt.execute();
-				stmt.close();
+				Statement st = connection.createStatement();
+				st.executeUpdate(businessRule.getTrigger());
+				connection.commit();
+				st.close();
 				System.out.println("Het uitvoeren van de constraint is wel gelukt!");
 			} catch (SQLException e) {
 				System.out.println("Het uitvoeren van de constraint is niet gelukt!");
