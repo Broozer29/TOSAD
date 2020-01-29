@@ -85,7 +85,7 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 				b.setNaam(rs.getString("NAAM"));
 				b.setExample(rs.getString("EXAMPLE"));
 				b.setConstraint(rs.getString("CONSTRAINT_CODE"));
-				b.setTrigger(rs.getString("TRIGGER_CODE"));
+//				b.setTrigger(rs.getString("TRIGGER_CODE"));
 
 				b.setTypeOfCode(rs.getString("TYPE_OF_CODE"));
 				b.setID(businessRuleID);
@@ -112,7 +112,7 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 			pstmt.setString(3, b.getTypeOfCode());
 			pstmt.setString(4, b.getExample());
 			pstmt.setString(5, b.getConstraint());
-			pstmt.setString(6, b.getTrigger());
+//			pstmt.setString(6, b.getTrigger());
 			pstmt.setString(7, b.getTypeOfCode());
 			pstmt.executeUpdate();
 			for (Value i : b.getDeValues()) {
@@ -142,7 +142,7 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 			pstmt.setString(3, b.getNaam());
 			pstmt.setString(4, b.getExample());
 			pstmt.setString(5, b.getConstraint());
-			pstmt.setString(6, b.getTrigger());
+//			pstmt.setString(6, b.getTrigger());
 			pstmt.setString(7, b.getTypeOfCode());
 			pstmt.setInt(8, b.getID());
 			pstmt.executeUpdate();

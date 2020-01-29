@@ -1,4 +1,4 @@
-package tosad.tosad;
+package connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,6 +17,7 @@ import service.ConstraintGeneratorImpl;
 import service.JSonReader;
 import service.trigger.AttributeRangeRuleGenerator;
 import service.trigger.EntityOtherRuleGenerator;
+import service.trigger.InterEntityCompareRuleGenerator;
 import service.trigger.TriggerGenerator;
 
 public class Reciever {
@@ -53,6 +54,10 @@ public class Reciever {
 			}
 			if (generatedBusinessRule.getRuleType().getCode().equals("EOTH")) {
 				TriggerGenerator triggerGenerator = new EntityOtherRuleGenerator();
+				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+			}
+			if (generatedBusinessRule.getRuleType().getCode().equals("ICMP")) {
+				TriggerGenerator triggerGenerator = new InterEntityCompareRuleGenerator();
 				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
 			}
 			System.out.println(generatedBusinessRule.getTrigger());

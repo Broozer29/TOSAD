@@ -24,22 +24,22 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 
 		switch (typeOfRule.getCode()) {
 		case "ACMP":
+			//Werkt!!
 			generateCode = generateAttributeCompareConstraint(businessRule);
 			break;
 		case "ALIS":
+			//Werkt!!
 			generateCode = generateAttributeListConstraint(businessRule);
 			break;
 		case "AOTH":
-
 			generateCode = generateAttributeOtherConstraint(businessRule);
 			break;
 		case "ARNG":
+			//Werkt!!
 			generateCode = generateAttributeRangeConstraint(businessRule);
 			break;
 		case "TCMP":
-			// ALTER TABLE broeken ADD CONSTRAINT TOSAD_BRULE_TCR_01 CHECK (prijsInclBtw >
-			// prijsExclBtw);
-			// ORA-01735: invalid ALTER TABLE option
+			//Werkt!!
 			generateCode = generateTupleCompareConstraint(businessRule);
 			break;
 		}
@@ -52,7 +52,7 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 		Value maxValue = getMaxValue(businessRule);
 
 		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
-				+ this.column.getName() + " " + operatorValue.getGiven() + " " + maxValue.getGiven() + ");";
+				+ this.column.getName() + " " + operatorValue.getGiven() + " " + maxValue.getGiven() + ")";
 	}
 
 	private ArrayList<String> convertListOfValues(BusinessRule businessRule) {
@@ -67,7 +67,7 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 	private String generateAttributeListConstraint(BusinessRule businessRule) {
 		ArrayList<String> stringValueList = convertListOfValues(businessRule);
 		String generateCode = "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam()
-				+ " CHECK " + "(" + this.column.getName() + " IN " + "(" + stringValueList + ")" + ");";
+				+ " CHECK " + "(" + this.column.getName() + " IN " + "(" + stringValueList + ")" + ")";
 		generateCode = generateCode.replace("[", "");
 		generateCode = generateCode.replace("]", "");
 		return generateCode;
@@ -90,7 +90,7 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 
 		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
 				+ "substr(" + this.column.getName() + ", " + startPosition.getGiven() + " ," + letterLength.getGiven()
-				+ ")" + " between (" + "'" + minValue.getGiven() + "' and " + "'" + maxValue.getGiven() + "')" + ");";
+				+ ")" + " between (" + "'" + minValue.getGiven() + "' and " + "'" + maxValue.getGiven() + "')" + ")";
 	}
 
 	private String generateAttributeRangeConstraint(BusinessRule businessRule) {
@@ -98,14 +98,14 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 		Value maxValue = getMaxValue(businessRule);
 		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
 				+ this.column.getName() + " >=" + minValue.getGiven() + " AND " + this.column.getName() + " <= "
-				+ maxValue.getGiven() + ");";
+				+ maxValue.getGiven() + ")";
 
 	}
 
 	private String generateTupleCompareConstraint(BusinessRule businessRule) {
 		Value compareValue = getOperaterValue(businessRule);
 		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
-				+ this.column.getName() + " " + compareValue.getGiven() + " " + this.secondColumn.getName() + ");";
+				+ this.column.getName() + " " + compareValue.getGiven() + " " + this.secondColumn.getName() + ")";
 	}
 
 	private void setDefaultValues(BusinessRule businessRule) {

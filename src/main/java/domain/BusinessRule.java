@@ -1,5 +1,6 @@
 package domain;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class BusinessRule {
 		return trigger;
 	}
 
-	public void setTrigger(String trigger) {
-		this.trigger = trigger;
+	public void setTrigger(String preparedStatement) {
+		this.trigger = preparedStatement;
 	}
 
 	public void setID(int iD) {
