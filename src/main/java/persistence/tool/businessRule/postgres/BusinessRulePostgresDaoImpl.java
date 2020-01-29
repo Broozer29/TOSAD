@@ -135,11 +135,11 @@ public class BusinessRulePostgresDaoImpl implements BusinessRuleDao {
 	public boolean update(BusinessRule b) {
 		try {
 
-			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, TYPE_OF_CODE = ?, EXAMPLE = ?, CONSTRAINT_CODE = ?, TRIGGER_CODE = ?, TYPE_OF_CODE = ? WHERE ID = ?";
+			String strQuery = "update BUSINESSRULE SET ID = ?, BUSINESSRULETYPE_CODE = ?, NAAM = ?, EXAMPLE = ?, CONSTRAINT_CODE = ?, TRIGGER_CODE = ?, TYPE_OF_CODE = ? WHERE ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setInt(1, b.getID());
 			pstmt.setString(2, b.getRuleType().getCode());
-			pstmt.setString(3, b.getTypeOfCode());
+			pstmt.setString(3, b.getNaam());
 			pstmt.setString(4, b.getExample());
 			pstmt.setString(5, b.getConstraint());
 			pstmt.setString(6, b.getTrigger());

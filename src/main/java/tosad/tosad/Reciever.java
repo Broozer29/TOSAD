@@ -58,8 +58,8 @@ public class Reciever {
 			System.out.println(generatedBusinessRule.getTrigger());
 		}
 		
-
-
+		businessRuleDao.update(generatedBusinessRule);
+		
 		Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
 		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
 		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);

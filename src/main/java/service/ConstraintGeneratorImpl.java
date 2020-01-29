@@ -30,12 +30,16 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 			generateCode = generateAttributeListConstraint(businessRule);
 			break;
 		case "AOTH":
+
 			generateCode = generateAttributeOtherConstraint(businessRule);
 			break;
 		case "ARNG":
 			generateCode = generateAttributeRangeConstraint(businessRule);
 			break;
 		case "TCMP":
+			// ALTER TABLE broeken ADD CONSTRAINT TOSAD_BRULE_TCR_01 CHECK (prijsInclBtw >
+			// prijsExclBtw);
+			// ORA-01735: invalid ALTER TABLE option
 			generateCode = generateTupleCompareConstraint(businessRule);
 			break;
 		}
@@ -63,7 +67,7 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 	private String generateAttributeListConstraint(BusinessRule businessRule) {
 		ArrayList<String> stringValueList = convertListOfValues(businessRule);
 		String generateCode = "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam()
-				+ " CHECK " + this.column.getName() + " IN " + "(" + stringValueList + ")" + ");";
+				+ " CHECK " + "(" + this.column.getName() + " IN " + "(" + stringValueList + ")" + ");";
 		generateCode = generateCode.replace("[", "");
 		generateCode = generateCode.replace("]", "");
 		return generateCode;
@@ -92,9 +96,10 @@ public class ConstraintGeneratorImpl implements ConstraintGenerator {
 	private String generateAttributeRangeConstraint(BusinessRule businessRule) {
 		Value minValue = getMinValue(businessRule);
 		Value maxValue = getMaxValue(businessRule);
+		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT " + businessRule.getNaam() + " CHECK " + "("
+				+ this.column.getName() + " >=" + minValue.getGiven() + " AND " + this.column.getName() + " <= "
+				+ maxValue.getGiven() + ");";
 
-		return "ALTER TABLE " + this.table.getName() + " ADD CONSTRAINT" + businessRule.getNaam() + " CHECK " + "("
-				+ this.column.getName() + " between " + minValue.getGiven() + " and " + maxValue.getGiven() + ");";
 	}
 
 	private String generateTupleCompareConstraint(BusinessRule businessRule) {
