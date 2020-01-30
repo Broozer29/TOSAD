@@ -22,51 +22,52 @@ import service.trigger.TriggerGenerator;
 
 public class Reciever {
 	public static void main(String[] args) throws IOException, SQLException {
-		String recievedData = "";
 		ServerSocket ss = new ServerSocket(4711);
-		Socket s = ss.accept();
-		Scanner scanner = new Scanner(s.getInputStream());
-		while (scanner.hasNextLine()) {
-			recievedData = scanner.nextLine();
-		}
-
-		System.out.println(recievedData);
-
-		BusinessRulePostgresDaoImpl businessRuleDao = new BusinessRulePostgresDaoImpl();
-		BusinessRule generatedBusinessRule = new BusinessRule();
-
-		JSonReader jsonReader = new JSonReader(recievedData);
-		int id = jsonReader.getRuleID();
-		String typeOfSQL = jsonReader.getTypeOfSQL();
-
-		generatedBusinessRule = businessRuleDao.findById(id);
-
-		if (typeOfSQL.equals("constraint")) {
-			ConstraintGenerator sqlGenerator = new ConstraintGeneratorImpl();
-			generatedBusinessRule.setConstraint(sqlGenerator.generateCode(generatedBusinessRule));
-			System.out.println(generatedBusinessRule.getConstraint());
-		}
-
-		if (typeOfSQL.equals("trigger")) {
-			if (generatedBusinessRule.getRuleType().getCode().equals("ARNG")) {
-				TriggerGenerator triggerGenerator = new AttributeRangeRuleGenerator();
-				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+		while (true) {
+			String recievedData = "";
+			Socket s = ss.accept();
+			Scanner scanner = new Scanner(s.getInputStream());
+			while (scanner.hasNextLine()) {
+				recievedData = scanner.nextLine();
 			}
-			if (generatedBusinessRule.getRuleType().getCode().equals("EOTH")) {
-				TriggerGenerator triggerGenerator = new EntityOtherRuleGenerator();
-				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+
+			System.out.println(recievedData);
+
+			BusinessRulePostgresDaoImpl businessRuleDao = new BusinessRulePostgresDaoImpl();
+			BusinessRule generatedBusinessRule = new BusinessRule();
+
+			JSonReader jsonReader = new JSonReader(recievedData);
+			int id = jsonReader.getRuleID();
+			String typeOfSQL = jsonReader.getTypeOfSQL();
+
+			generatedBusinessRule = businessRuleDao.findById(id);
+
+			if (typeOfSQL.equals("constraint")) {
+				ConstraintGenerator sqlGenerator = new ConstraintGeneratorImpl();
+				generatedBusinessRule.setConstraint(sqlGenerator.generateCode(generatedBusinessRule));
+				System.out.println(generatedBusinessRule.getConstraint());
 			}
-			if (generatedBusinessRule.getRuleType().getCode().equals("ICMP")) {
-				TriggerGenerator triggerGenerator = new InterEntityCompareRuleGenerator();
-				generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+
+			if (typeOfSQL.equals("trigger")) {
+				if (generatedBusinessRule.getRuleType().getCode().equals("ARNG")) {
+					TriggerGenerator triggerGenerator = new AttributeRangeRuleGenerator();
+					generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+				}
+				if (generatedBusinessRule.getRuleType().getCode().equals("EOTH")) {
+					TriggerGenerator triggerGenerator = new EntityOtherRuleGenerator();
+					generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+				}
+				if (generatedBusinessRule.getRuleType().getCode().equals("ICMP")) {
+					TriggerGenerator triggerGenerator = new InterEntityCompareRuleGenerator();
+					generatedBusinessRule.setTrigger(triggerGenerator.generateTrigger(generatedBusinessRule));
+				}
+				System.out.println(generatedBusinessRule.getTrigger());
 			}
-			System.out.println(generatedBusinessRule.getTrigger());
+
+			businessRuleDao.update(generatedBusinessRule);
+			Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
+			ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
+			constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 		}
-		
-		businessRuleDao.update(generatedBusinessRule);
-		
-		Connection targetDatabaseConnection = new TargetDatabaseConnector().getInstance();
-		ConstraintExecutor constraintExecutor = new ConstraintExecutorImpl();
-		constraintExecutor.executeConstraint(targetDatabaseConnection, generatedBusinessRule);
 	}
 }

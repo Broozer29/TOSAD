@@ -19,7 +19,6 @@ public class AttributeRangeRuleGenerator implements TriggerGenerator {
 		column = b.getDeColumns().get(0).getName();
 		for (Value v : b.getDeValues()) {
 			if (v.getDataType().equals("operator")) {
-
 				operator = v.getGiven();
 			} else if (v.getDataType().equals("minValue")) {
 				minValue = v.getGiven();
@@ -34,7 +33,7 @@ public class AttributeRangeRuleGenerator implements TriggerGenerator {
 				+ "    l_passed:= :NEW." + column + " " + operator + " " + minValue + " AND " + maxValue + ";\r\n"
 				+ "    IF l_passed then\r\n" + "        DBMS_OUTPUT.PUT_LINE('succesvol'); \r\n" + "    ELSE\r\n"
 				+ "    raise_application_error(-20000, 'voldoet niet aan trigger voorwaarden');\r\n" + "    END IF;\r\n"
-				+ "END;\r\n" + "/";
+				+ "END;\r";
 
 		return s;
 	}

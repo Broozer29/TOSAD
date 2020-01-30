@@ -26,7 +26,6 @@ public class TargetDatabaseConnector {
 			}
 
 		}
-		System.out.println(targetDatabaseConnection);
 		return targetDatabaseConnection;
 	}
 }

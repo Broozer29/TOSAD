@@ -29,6 +29,7 @@ public class ColumnPostgresDaoImpl implements ColumnDao {
 			while (rs.next()) {
 				Column c = new Column();
 				c.setName(rs.getString("NAME"));
+				c.setDataType(rs.getString("DATATYPE"));
 				deColumns.add(c);
 
 			}
@@ -43,9 +44,10 @@ public class ColumnPostgresDaoImpl implements ColumnDao {
 	public boolean save(Column c) {
 		try {
 
-			String strQuery = "INSERT INTO COLUMNNAME (NAME) values(?)";
+			String strQuery = "INSERT INTO COLUMNNAME (NAME, DATATYPE) values(?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(strQuery);
 			pstmt.setString(1, c.getName());
+			pstmt.setString(2, c.getDataType());
 			pstmt.executeUpdate();
 			return true;
 		} catch (SQLException sqle) {
